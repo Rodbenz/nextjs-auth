@@ -1,8 +1,8 @@
-'use client'
-import { Button } from '@mantine/core';
-import { useSession, signOut, signIn } from 'next-auth/react'
-import React from 'react';
-import NavbarApp from './components/navbar/page';
+"use client";
+import { Button } from "@mantine/core";
+import { useSession, signOut, signIn } from "next-auth/react";
+import React from "react";
+import NavbarApp from "./components/navbar/page";
 
 const InactivityTimeout = 15 * 60 * 1000; // 15 minutes
 export default function Home() {
@@ -11,7 +11,7 @@ export default function Home() {
     if (session === null) {
       signIn();
     }
-  }, [session])
+  }, [session]);
 
   React.useEffect(() => {
     let inactivityTimeout;
@@ -23,28 +23,27 @@ export default function Home() {
 
     function logout() {
       // Call the logout action provided by next-auth
-      signOut()
+      signOut();
     }
 
     if (session) {
       resetInactivityTimer();
 
-      window.addEventListener('mousemove', resetInactivityTimer);
-      window.addEventListener('keydown', resetInactivityTimer);
+      window.addEventListener("mousemove", resetInactivityTimer);
+      window.addEventListener("keydown", resetInactivityTimer);
       // Add more events as needed
 
       return () => {
         clearTimeout(inactivityTimeout);
-        window.removeEventListener('mousemove', resetInactivityTimer);
-        window.removeEventListener('keydown', resetInactivityTimer);
+        window.removeEventListener("mousemove", resetInactivityTimer);
+        window.removeEventListener("keydown", resetInactivityTimer);
       };
     }
   }, [session]);
   return (
     <main>
-      <NavbarApp />
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-      </div>
+      {session && <NavbarApp />}
+      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex"></div>
     </main>
-  )
+  );
 }
