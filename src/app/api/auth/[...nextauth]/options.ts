@@ -49,19 +49,20 @@ export const option: NextAuthOptions = {
     async redirect({ url, baseUrl }) {
       return baseUrl;
     },
-    // async session({ session, user, token }) {
-    //   if (token.user) {
-    //     session.user.name = token.name;
-    //   }
+    async session({ session, user, token }) {
+      if (session) {
+        session.user = token.user
+        // session.user.id = token.id;
+      }
 
-    //   return session;
-    // },
-    // async jwt({ token, user, account, profile, isNewUser }) {
-    //   if (user) {
-    //     token.user = user;
-    //   }
-    //   return token;
-    // },
+      return session;
+    },
+    async jwt({ token, user, account, profile, isNewUser }) {
+      if (user) {
+        token.user = user;
+      }
+      return token;
+    },
   }
 
 }
